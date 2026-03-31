@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regex Tester - Free Online Regular Expression Tester</title>
+<meta name="description" content="Test regular expressions online. Real-time matching, highlights, flags support. Free, no signup.">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+<div class="max-w-2xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-bold text-gray-800 mb-2">Regex Tester</h1>
+  <p class="text-gray-500 mb-6">Test regular expressions in real time. Supports g, i, m flags.</p>
+  <div class="bg-white rounded-xl shadow p-6 mb-4 space-y-4">
+    <div>
+      <label class="block text-xs font-semibold text-gray-500 mb-1">PATTERN</label>
+      <div class="flex gap-2">
+        <input id="pattern" class="flex-1 border rounded px-3 py-2 font-mono text-sm" placeholder="e.g. \\d+" oninput="test()">
+        <input id="flags" class="w-20 border rounded px-3 py-2 font-mono text-sm" placeholder="gim" oninput="test()">
+      </div>
+    </div>
+    <div>
+      <label class="block text-xs font-semibold text-gray-500 mb-1">TEST STRING</label>
+      <textarea id="teststr" rows="5" class="w-full border rounded p-3 font-mono text-sm" placeholder="Enter text to test against..." oninput="test()"></textarea>
+    </div>
+    <div id="result" class="text-sm text-gray-700"></div>
+  </div>
+  <p class="text-center text-gray-400 text-sm">Need custom tools? <a href="mailto:844332090@qq.com" class="text-blue-500 hover:underline">DM me</a></p>
+</div>
+<script>
+function test(){
+  const p=document.getElementById('pattern').value;
+  const f=document.getElementById('flags').value||'g';
+  const s=document.getElementById('teststr').value;
+  const res=document.getElementById('result');
+  if(!p){res.innerHTML='';return;}
+  try{
+    const rx=new RegExp(p,f);
+    const matches=[...s.matchAll(rx)];
+    if(matches.length===0){res.innerHTML='<span class="text-red-500">No matches</span>';return;}
+    res.innerHTML=`<span class="text-green-600 font-semibold">${matches.length} match(es)</span><br><pre class="mt-2 bg-gray-50 p-2 rounded text-xs overflow-auto">${matches.map((m,i)=>`Match ${i+1}: "${m[0]}" at index ${m.index}`).join('\n')}</pre>`;
+  }catch(e){res.innerHTML=`<span class="text-red-500">Invalid regex: ${e.message}</span>`;}
+}
+</script>
+</body>
+</html>
